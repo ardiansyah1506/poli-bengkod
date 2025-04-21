@@ -55,6 +55,39 @@
             @enderror
         </div>
 
+        <div class="input-group mb-3">
+            <input type="text" name="alamat" class="form-control @error('alamat') is-invalid @enderror"
+                placeholder="{{ __('Alamat') }}"  value="{{ old('alamat') }}" >
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-address-card "></span>
+                </div>
+            </div>
+
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+        <div class="input-group mb-3">
+            <input type="text" name="no_hp" class="form-control @error('n_hp') is-invalid @enderror"
+                placeholder="{{ __('No Handphone') }}"  value="{{ old('no_hp') }}" >
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-address-book "></span>
+                </div>
+            </div>
+
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+
         {{-- Password field --}}
         <div class="input-group mb-3">
             <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"

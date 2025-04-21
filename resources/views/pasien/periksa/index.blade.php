@@ -62,10 +62,7 @@
                             @enderror
                         </div>
 
-                        <div class="d-flex justify-content-between">
-                            <a href="/periksa" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Kembali
-                            </a>
+                        <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-save"></i> Simpan
                             </button>
