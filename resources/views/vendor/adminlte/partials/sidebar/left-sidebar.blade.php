@@ -20,32 +20,32 @@
                 @endif>
                 @if(auth()->user()->role == 'dokter')
                 <li class="nav-item">
-                    <a href="{{ route('periksa.index') }}" class="nav-link {{ request()->is('periksa') ? 'active ' : '' }}">
+                    <a href="{{ route('periksa.index') }}" class="nav-link {{ Route::is('periksa.index') ? 'active ' : '' }}">
                         <i class="fas fa-stethoscope nav-icon"></i>
                         <p>Periksa</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('obat.index') }}" class="nav-link {{ request()->is('obat') ? 'active ' : '' }}">
+                    <a href="{{ route('obat.index') }}" class="nav-link {{ Route::is('obat.index') ? 'active ' : '' }}">
                         <i class="fas fa-pills nav-icon"></i>
                         <p>Obat</p>
                     </a>
                 </li>
             @else
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link {{ request()->is('home') ? 'active ' : '' }}">
+                    <a href="{{ route('home') }}" class="nav-link {{ Route::is('home') ? 'active ' : '' }}">
                         <i class="fas fa-home nav-icon"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('pasien.periksa.index') }}" class="nav-link {{ request()->is('periksa') ? 'active ' : '' }}">
+                    <a href="{{ route('pasien.periksa.index') }}" class="nav-link {{ Route::is('pasien.periksa.index') ? 'active ' : '' }}">
                         <i class="fas fa-notes-medical nav-icon"></i>
                         <p>Periksa</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ Route('riwayat.index') }}" class="nav-link {{ request()->is('riwayat') ? 'active ' : '' }}">
+                    <a href="{{ Route('riwayat.index') }}" class="nav-link {{ Route::is('riwayat.index') ? 'active ' : '' }}">
                         <i class="fas fa-history nav-icon"></i>
                         <p>Riwayat</p>
                     </a>

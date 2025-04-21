@@ -37,9 +37,20 @@
                             <td>{{ $periksa->pasien->name }}</td>
                             <td>{{ $periksa->dokter->name }}</td>
                             <td>
-                                {{ $periksa->detailPeriksa->first()?->obat?->name_obat ?? 'Tidak ada' }}
+                                @php
+                                    $obatList = $periksa->detailPeriksa->pluck('obat.name_obat')->filter()->toArray();
+                                    $totalObat = count($obatList);
+                                @endphp
+                    
+                                @if ($totalObat === 0)
+                                    Tidak ada
+                                @else
+                                    {{ implode(', ', array_slice($obatList, 0, 2)) }}
+                                    @if ($totalObat > 2)
+                                        ...
+                                    @endif
+                                @endif
                             </td>
-                          
                         </tr>
                         @empty
                         <tr>

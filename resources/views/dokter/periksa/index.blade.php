@@ -40,11 +40,22 @@
                             <td>{{ $periksa->pasien->name }}</td>
                             <td>{{ $periksa->dokter->name }}</td>
                             <td>
-                                {{ $periksa->detailPeriksa->first()?->obat?->name_obat ?? 'Tidak ada' }}
+                                @php
+                                    $obatList = $periksa->detailPeriksa->pluck('obat.name_obat')->filter()->toArray();
+                                    $totalObat = count($obatList);
+                                @endphp
+                    
+                                @if ($totalObat === 0)
+                                    Tidak ada
+                                @else
+                                    {{ implode(', ', array_slice($obatList, 0, 2)) }}
+                                    @if ($totalObat > 2)
+                                        ...
+                                    @endif
+                                @endif
                             </td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
-                                   
                                     <a href="{{ route('periksa.edit', $periksa->id) }}" class="btn btn-sm btn-warning">
                                         <i class="bi bi-pencil"></i> Edit
                                     </a>

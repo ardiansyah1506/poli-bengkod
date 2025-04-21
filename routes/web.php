@@ -13,8 +13,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::middleware(['auth', 'role:dokter'])->group(function () {
+    // Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
     Route::resource('obat', ObatController::class);
     Route::resource('dokter/periksa', PeriksaController::class);
 });

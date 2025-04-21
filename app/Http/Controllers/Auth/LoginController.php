@@ -28,7 +28,7 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
-    return Auth::user()->role === 'dokter' ? "/dokter" :
+    return Auth::user()->role === 'dokter' ? "dokter/periksa" :
     "home";
     }
 

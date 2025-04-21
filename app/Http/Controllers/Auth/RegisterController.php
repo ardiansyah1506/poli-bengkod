@@ -30,8 +30,8 @@ class RegisterController extends Controller
      */
     protected function redirectTo()
     {
-        return Auth::user()->role === 'dokter' ? "/dokter" :
-        "home";
+    return Auth::user()->role === 'dokter' ? "dokter/periksa" :
+    "home";
     }
     /**
      * Create a new controller instance.

@@ -20,7 +20,6 @@ class PeriksaController extends Controller
     {
         $users = User::all();
         $obat =Obat::all();
-    //    dd($obat);
         return view('dokter.periksa.create', compact('users','obat'));
     }
 
