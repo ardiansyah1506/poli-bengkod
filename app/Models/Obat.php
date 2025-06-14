@@ -8,14 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Obat extends Model
 {
     use HasFactory;
-    protected $table = 'obat';
-    protected $fillable = [
-        'name_obat',
-        'kemasan',
-        'harga',
-    ];
 
-    public function detailPeriksas()
+    protected $table = 'obat';
+
+    protected $fillable = ['nama_obat', 'kemasan', 'harga'];
+
+    public function detailPeriksa()
     {
         return $this->hasMany(DetailPeriksa::class, 'id_obat');
     }

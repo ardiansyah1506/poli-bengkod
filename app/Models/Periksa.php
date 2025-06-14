@@ -11,26 +11,11 @@ class Periksa extends Model
 
     protected $table = 'periksa';
 
-    protected $fillable = [
-        'id_pasien',
-        'id_dokter',
-        'tgl_periksa',
-        'catatan',
-        'biaya_periksa',
-    ];
+    protected $fillable = ['id_daftar_poli', 'tgl_periksa', 'catatan', 'biaya_periksa'];
 
-    protected $casts = [
-        'tgl_periksa' => 'datetime',
-    ];
-
-    public function pasien()
+    public function daftarPoli()
     {
-        return $this->belongsTo(User::class, 'id_pasien');
-    }
-
-    public function dokter()
-    {
-        return $this->belongsTo(User::class, 'id_dokter');
+        return $this->belongsTo(DaftarPoli::class, 'id_daftar_poli');
     }
 
     public function detailPeriksa()

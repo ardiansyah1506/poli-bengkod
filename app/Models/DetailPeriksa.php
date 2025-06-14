@@ -9,12 +9,10 @@ class DetailPeriksa extends Model
 {
     use HasFactory;
 
+
     protected $table = 'detail_periksa';
 
-    protected $fillable = [
-        'id_periksa',
-        'id_obat',
-    ];
+    protected $fillable = ['id_periksa', 'obat'];
 
     public function periksa()
     {

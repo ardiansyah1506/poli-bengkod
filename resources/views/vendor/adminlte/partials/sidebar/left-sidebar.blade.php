@@ -18,11 +18,48 @@
                 @if(!config('adminlte.sidebar_nav_accordion'))
                     data-accordion="false"
                 @endif>
-                @if(auth()->user()->role == 'dokter')
+                @if(auth()->user()->role == 'admin')
+                <li class="nav-item">
+                    <a href="" class="nav-link {{ Route::is('periksa.index') ? 'active ' : '' }}">
+                        <i class="fas fa-stethoscope nav-icon"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ Route('dokter.index') }}" class="nav-link {{ Route::is('dokter.index') ? 'active ' : '' }}">
+                        <i class="fas fa-pills nav-icon"></i>
+                        <p>Dokter</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ Route('pasien.index') }}" class="nav-link {{ Route::is('pasien.index') ? 'active ' : '' }}">
+                        <i class="fas fa-pills nav-icon"></i>
+                        <p>Pasien</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ Route('poli.index') }}" class="nav-link {{ Route::is('poli.index') ? 'active ' : '' }}">
+                        <i class="fas fa-pills nav-icon"></i>
+                        <p>Poli</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ Route('obat.index') }}" class="nav-link {{ Route::is('obat.index') ? 'active ' : '' }}">
+                        <i class="fas fa-pills nav-icon"></i>
+                        <p>Obat</p>
+                    </a>
+                </li>
+                @elseif(auth()->user()->role == 'dokter')
                 <li class="nav-item">
                     <a href="{{ route('periksa.index') }}" class="nav-link {{ Route::is('periksa.index') ? 'active ' : '' }}">
                         <i class="fas fa-stethoscope nav-icon"></i>
                         <p>Periksa</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('jadwal.index') }}" class="nav-link {{ Route::is('jadwal.index') ? 'active ' : '' }}">
+                        <i class="fas fa-stethoscope nav-icon"></i>
+                        <p>Jadwal Periksa</p>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -10,18 +10,18 @@ class ObatController extends Controller
     public function index()
     {
         $obats = Obat::all();
-        return view('dokter.obat.index', compact('obats'));
+        return view('admin.obat.index', compact('obats'));
     }
 
     public function create()
     {
-        return view('dokter.obat.create');
+        return view('admin.obat.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name_obat' => 'required|max:50',
+            'nama_obat' => 'required|max:50',
             'kemasan' => 'required|max:50',
             'harga' => 'nullable|integer',
         ]);
@@ -33,13 +33,13 @@ class ObatController extends Controller
 
     public function edit(Obat $obat)
     {
-        return view('dokter.obat.edit', compact('obat'));
+        return view('admin.obat.edit', compact('obat'));
     }
 
     public function update(Request $request, Obat $obat)
     {
         $request->validate([
-            'name_obat' => 'required|max:50',
+            'nama_obat' => 'required|max:50',
             'kemasan' => 'required|max:50',
             'harga' => 'nullable|integer',
         ]);
