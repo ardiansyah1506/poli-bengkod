@@ -12,24 +12,18 @@
                 <table class="table table-striped table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Email</th>
-                            <th>No. KTP</th>
-                            <th>No. HP</th>
-                            <th>No. RM</th>
+                            <th>No Urut</th>
+                            <th>Nama Pasien</th>
+                            <th>Keluhan</th>
                             <th class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($pasiens as $pasien)
                         <tr>
+                            <td>{{ $loop->iteration }}</td>
                             <td>{{ $pasien->nama }}</td>
-                            <td>{{ $pasien->alamat }}</td>
-                            <td>{{ $pasien->email }}</td>
-                            <td>{{ $pasien->no_ktp }}</td>
-                            <td>{{ $pasien->no_hp }}</td>
-                            <td>{{ $pasien->no_rm }}</td>
+                            <td>{{ $pasien->keluhan }}</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
                                     <a href="{{ route('pasien.edit', $pasien->id) }}" class="btn btn-sm btn-warning">

@@ -1,84 +1,40 @@
 @extends('layouts.app')
-@section('content_header_title','Periksa')
-@section('content_header_subtitle','')
-
-
 @section('content')
-<div class="container py-4">
-    <div class="card shadow-sm">
-        <div class="p-3 bg-primary text-white d-flex justify-content-between align-items-center">
-            <h1 class="h4 mb-0">Daftar Pemeriksaan</h1>
-            <a href="{{ route('periksa.create') }}" class="btn btn-success ">
-                <i class="bi bi-plus-circle"></i> Tambah Pemeriksaan
-            </a>
-        </div>
-        <div class="card-body">
-            @if(session('success'))
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('success') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            @endif
-            
-            <div class="table-responsive">
-                <table class="table table-striped table-hover">
-                    <thead class="table-light">
-                        <tr>
-                            <th>No</th>
-                            <th>Tanggal Periksa</th>
-                            <th>Pasien</th>
-                            <th>Dokter</th>
-                            <th>Obat</th>
-                            <th class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($periksas as $index => $periksa)
-                        <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td>{{ \Carbon\Carbon::parse($periksa->tgl_periksa)->format('d/m/Y') }}</td>
-                            <td>{{ $periksa->pasien->name }}</td>
-                            <td>{{ $periksa->dokter->name }}</td>
-                            <td>
-                                @php
-                                    $obatList = $periksa->detailPeriksa->pluck('obat.name_obat')->filter()->toArray();
-                                    $totalObat = count($obatList);
-                                @endphp
-                    
-                                @if ($totalObat === 0)
-                                    Tidak ada
-                                @else
-                                    {{ implode(', ', array_slice($obatList, 0, 2)) }}
-                                    @if ($totalObat > 2)
-                                        ...
-                                    @endif
-                                @endif
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group" role="group">
-                                    <a href="{{ route('periksa.edit', $periksa->id) }}" class="btn btn-sm btn-warning">
-                                        <i class="bi bi-pencil"></i> Edit
-                                    </a>
-                                    <form action="{{ route('periksa.destroy', $periksa->id) }}" method="POST" class="d-inline">
-                                        @csrf 
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data pemeriksaan ini?')">
-                                            <i class="bi bi-trash"></i> Hapus
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6" class="text-center">Tidak ada data pemeriksaan</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-        </div>
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>Daftar Pemeriksaan</h4>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>No</th>
+                    <th>Pasien</th>
+                    <th>Keluhan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($periksas as $periksa)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $periksa->pasien->nama ?? '-' }}</td>
+                    <td>{{ $periksa->keluhan ?? '-' }}</td>
+                        <td class="text-center">
+                            <a href="{{ route('periksa.edit', $periksa->id) }}" class="btn btn-sm {{ $periksa->periksa ? 'btn-warning' : 'btn-primary' }}">
+                                <i class="bi {{ $periksa->periksa ? 'bi-pencil' : 'bi-plus-circle' }}"></i>
+                                {{ $periksa->periksa ? 'Edit' : 'Periksa' }}
+                            </a>
+                        </td>
+                </tr>
+                @endforeach
+                @if($periksas->isEmpty())
+                <tr>
+                    <td colspan="4" class="text-center">Belum ada data periksa.</td>
+                </tr>
+                @endif
+            </tbody>
+        </table>
     </div>
 </div>
 @endsection
-

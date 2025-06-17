@@ -1,81 +1,78 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\GeneralHelper;
 use App\Http\Controllers\Controller;
+use App\Models\Pasien;
 use App\Models\User;
-use Auth;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller handles the registration of new users as well as their
-    | validation and creation. By default this controller uses a trait to
-    | provide this functionality without requiring any additional code.
-    |
-    */
-
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
+    // Setelah registrasi, arahkan user ke dashboard sesuai role
     protected function redirectTo()
     {
-    return Auth::user()->role === 'dokter' ? "dokter/periksa" :
-    "home";
+
+        return '/dashboard';
     }
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
+    // Hanya bisa diakses oleh tamu (belum login)
     public function __construct()
     {
         $this->middleware('guest');
     }
 
-    /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
+    // Validasi input form registrasi
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'alamat'     => ['required', 'string', 'max:255'],
-            'no_hp'     => ['required', 'string', 'max:255'],
+            'alamat'   => ['required', 'string', 'max:255'],
+            'no_hp'    => ['required', 'string', 'max:255'],
+            'no_ktp'   => ['required', 'string', 'max:255'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
+    // Simpan user ke tabel `users` dan `pasiens`
     protected function create(array $data)
     {
-        // dd($data);
-        return User::create([
-            'name'     => $data['name'],
+        // Simpan ke tabel users
+        User::create([
             'email'    => $data['email'],
-            'alamat'    => $data['alamat'],
-            'no_hp'    => $data['no_hp'],
-            'role'    => 'pasien',
             'password' => Hash::make($data['password']),
+            'role'     => 'pasien',
         ]);
+
+        // Simpan ke tabel pasien
+        return Pasien::create([
+            'nama'    => $data['name'],
+            'email'   => $data['email'],
+            'alamat'  => $data['alamat'],
+            'no_hp'   => $data['no_hp'],
+            'no_ktp'  => $data['no_ktp'],
+            'no_rm'   => GeneralHelper::generateNoRM(),
+        ]);
+    }
+
+    // Override method register jika ingin memproses manual (opsional)
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        Auth::login(User::where('email', $request->email)->first());
+
+        return redirect($this->redirectPath());
     }
 }

@@ -87,6 +87,22 @@
                 </span>
             @enderror
         </div>
+        <div class="input-group mb-3">
+            <input type="text" name="no_ktp" class="form-control @error('no_ktp') is-invalid @enderror"
+                placeholder="{{ __('No KTP') }}"  value="{{ old('no_ktp') }}" >
+
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-address-card "></span>
+                </div>
+            </div>
+
+            @error('password')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
 
         {{-- Password field --}}
         <div class="input-group mb-3">

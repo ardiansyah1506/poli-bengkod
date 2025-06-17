@@ -1,117 +1,74 @@
 @extends('layouts.app')
-@section('content_header_title','Periksa')
-@section('content_header_subtitle','Tambah')
-
 @section('content')
-<div class="container py-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h1 class="h4 mb-0">Tambah Pemeriksaan</h1>
-                </div>
-                <div class="card-body">
-                    @if($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <form action="{{ route('periksa.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="tgl_periksa" class="form-label">Tanggal Pemeriksaan</label>
-                            <input type="date" id="tgl_periksa" name="tgl_periksa" class="form-control @error('tgl_periksa') is-invalid @enderror" value="{{ old('tgl_periksa', date('Y-m-d')) }}" required>
-                            @error('tgl_periksa')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="id_pasien" class="form-label">Pasien</label>
-                            <select id="id_pasien" name="id_pasien" class="form-control @error('id_pasien') is-invalid @enderror" required>
-                                <option value="">-- Pilih Pasien --</option>
-                                @foreach($users as $user)
-                                    @if($user->role == 'pasien')
-                                        <option value="{{ $user->id }}" {{ old('id_pasien') == $user->id ? 'selected' : '' }}>
-                                            {{ $user->name }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            @error('id_pasien')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="id_dokter" class="form-label">Dokter</label>
-                            <select id="id_dokter" name="id_dokter" class="form-control @error('id_dokter') is-invalid @enderror" required>
-                                <option value="">-- Pilih Dokter --</option>
-                                @foreach($users as $user)
-                                    @if($user->role == 'dokter')
-                                        <option value="{{ $user->id }}" {{ old('id_dokter') == $user->id ? 'selected' : '' }}>
-                                            {{ $user->name }}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            @error('id_dokter')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="catatan" class="form-label">Catatan</label>
-                            <textarea id="catatan" name="catatan" class="form-control @error('catatan') is-invalid @enderror" rows="3">{{ old('catatan') }}</textarea>
-                            @error('catatan')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="id_obat" class="form-label">Obat</label>
-                            <select id="id_obat" name="id_obat[]" multiple class="form-control @error('obat') is-invalid @enderror" required>
-                                <option value="">-- Pilih Obat --</option>
-                                @foreach($obat as $item)
-                                        <option value="{{ $item->id }}" {{ old('id_obat') == $item->id ? 'selected' : '' }}>
-                                            {{ $item->name_obat }}
-                                        </option>
-                                @endforeach
-                            </select>
-                            @error('id_obat')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="d-flex justify-content-between">
-                            <a href="{{ route('periksa.index') }}" class="btn btn-secondary">
-                                <i class="bi bi-arrow-left"></i> Kembali
-                            </a>
-                            <button type="submit" class="btn btn-primary">
-                                <i class="bi bi-save"></i> Simpan
-                            </button>
-                        </div>
-                    </form>
-                </div>
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h4>Tambah Data Periksa</h4>
+    </div>
+    <div class="card-body">
+        <form action="{{ route('periksa.store') }}" method="POST" id="formPeriksa">
+            @csrf
+            <div class="mb-3">
+                <label>Pasien</label>
+                <select name="id_pasien" class="form-select" required>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label>Dokter</label>
+                <select name="id_dokter" class="form-select" required>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Tanggal Periksa</label>
+                <input type="date" name="tgl_periksa" class="form-control" required>
+            </div>
+
+            <div class="mb-3">
+                <label>Catatan</label>
+                <textarea name="catatan" class="form-control"></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Obat</label>
+                <select name="id_obat[]" class="form-select select2" id="obatSelect" multiple>
+                    @foreach($obats as $obat)
+                        <option value="{{ $obat->id }}" data-harga="{{ $obat->harga }}">{{ $obat->nama_obat }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label>Total Harga Obat</label>
+                <input type="text" id="totalHarga" class="form-control" readonly>
+            </div>
+
+            <button class="btn btn-success">Simpan</button>
+        </form>
     </div>
 </div>
 @endsection
 
 
-@section('js')
+@section('adminlte_js')
 <script>
     $(document).ready(function() {
-        $('#id_obat').select2({
-            placeholder: '-- Pilih Obat --',
+        $('.select2').select2();
+
+        $('#obatSelect').on('change', function() {
+            let total = 0;
+            $('#obatSelect option:selected').each(function() {
+                total += parseInt($(this).data('harga')) || 0;
+            });
+            $('#totalHarga').val('Rp ' + total.toLocaleString());
         });
-    
     });
 </script>
 @endsection
+
