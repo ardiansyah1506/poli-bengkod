@@ -1,9 +1,13 @@
 @extends('layouts.app')
 @section('content')
 <div class="card shadow-sm">
-    <div class="bg-primary p-3 text-white d-flex justify-content-between">
-        <h1 class="h4 mb-0">Daftar Poli</h1>
-    </div>
+    
+     <div class="bg-primary p-3 text-white d-flex justify-content-between ">
+            <h1 class="h4 mb-0">Daftar Poli</h1>
+            <a href="{{ route('daftar-poli.create') }}" class="btn btn-success ">
+                <i class="bi bi-plus-circle"></i> Periksa
+            </a>
+        </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-striped table-hover">
